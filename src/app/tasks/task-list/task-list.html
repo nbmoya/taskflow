@@ -1,0 +1,34 @@
+<h2>Tareas</h2>
+
+<input type="text"
+placeholder="Buscar tarea..." 
+[value]="filter()" 
+(input) = "filter.set($any($event.target).value)">
+
+<!--<p>{{pending()}} pedientes de {{filtered().length}}</p>--->
+<p>{{pending()}} pendientes de {{tasks().length}}</p>
+@for (t of tasks(); track t.id){
+    <!--<div class="row"
+    [class.done]="task.status === 'done'"
+    [class.active]="task.status === 'in-progress'"
+    (click) = "toggle(task)"
+    (keydown.enter)="toggle(task)"
+    tabindex="0">
+
+    <span class="title">{{task.title}} </span>
+    <span class="badge">{{label(task.status)}}</span>
+    <span class="priority">P{{task.priority}}</span>
+    
+    </div>-->
+    <a [routerLink]="['/tasks',t.id]">
+    <app-task-card
+        [task]="t"
+        [days]="3"
+        cardSize="lg"
+        (done)="markDone($event)"
+        (deleted)="remove($event)"/>
+    </a>
+}@empty{
+    <p class="empty">Sin tareas todavía</p>
+
+}
