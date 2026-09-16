@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { TaskModel, TaskDraft } from "./tasks/task.model";
+import { TaskModel, TaskDraft, TaskPatch } from "./tasks/task.model";
 
 @Injectable({providedIn:'root'})
 export class TaskStore{
@@ -24,9 +24,9 @@ readonly tasks = signal<TaskModel[]>(
     return task;
   }
 
-  update(id:number, path:Partial<TaskModel>):void{
+  update(id:number, patch:TaskPatch):void{
     this.tasks.update(list =>
-        list.map(t => (t.id === id ? {...t, ...path}:t))
+        list.map(t => (t.id === id ? {...t, ...patch}:t))
     );
   }
 
