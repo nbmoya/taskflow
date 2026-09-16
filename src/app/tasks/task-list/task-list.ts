@@ -1,10 +1,8 @@
 import { Component, signal, computed, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TaskModel } from '../task.model';
-import { statusLabel, nextStatus } from '../task-status';
+import { RouterLink } from '@angular/router';
 import { TaskCard } from '../task-card/task-card';
 import { TaskStore } from '../../task.store';
-
 
 @Component({
   imports: [RouterLink, TaskCard],
@@ -12,15 +10,13 @@ import { TaskStore } from '../../task.store';
   styleUrl: './task-list.css',
   templateUrl: './task-list.html',
 })
-
 export class TaskList {
 
   private readonly store = inject(TaskStore);
-  
 
-  filter = signal('');
+  filter =signal('');
 
-  tasks  = computed(() => {
+  tasks = computed(() => {
     const q = this.filter().toLowerCase();
     return this.store.tasks().filter(t => t.title.toLowerCase().includes(q))
   })
@@ -29,19 +25,15 @@ export class TaskList {
     this.store.update(task.id, {status:'done'})
   }
 
-  pending = computed(() => 
-    this.tasks().filter(t => t.status !== 'done').length
-  );
-
   remove(id:number){
     this.store.remove(id);
   }
-
+  
   /*search = signal('');
 
-  filtered = computed(() =>
+  filtered = computed(()=>
   this.tasks().filter(t=>t.title.toLowerCase().includes(this.search().toLowerCase())));
-  
+
   pending = computed(()=>
   this.filtered().filter(t=>t.status !== 'done').length);
 
@@ -51,4 +43,3 @@ export class TaskList {
     this.tasks.update(list => list.map(t => t.id === task.id ? {...t,status: nextStatus(t.status)}:t))
   }*/
 }
-
