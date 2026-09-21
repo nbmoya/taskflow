@@ -14,32 +14,18 @@ export class TaskList {
 
   private readonly store = inject(TaskStore);
 
-  filter =signal('');
+  filter = signal('');
 
   tasks = computed(() => {
     const q = this.filter().toLowerCase();
     return this.store.tasks().filter(t => t.title.toLowerCase().includes(q))
   })
 
-  markDone(task:TaskModel){
-    this.store.update(task.id, {status:'done'})
+  markDone(task: TaskModel) {
+    this.store.complete(task.id);
   }
 
-  remove(id:number){
+  remove(id: number) {
     this.store.remove(id);
   }
-  
-  /*search = signal('');
-
-  filtered = computed(()=>
-  this.tasks().filter(t=>t.title.toLowerCase().includes(this.search().toLowerCase())));
-
-  pending = computed(()=>
-  this.filtered().filter(t=>t.status !== 'done').length);
-
-  label = statusLabel;
-
-  toggle(task:TaskModel){
-    this.tasks.update(list => list.map(t => t.id === task.id ? {...t,status: nextStatus(t.status)}:t))
-  }*/
 }
