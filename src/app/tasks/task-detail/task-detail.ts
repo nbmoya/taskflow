@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, numberAttribute } from '@angular/core';
-import { TaskStore } from '../../task.store';
+import { TaskStore } from '../../task-store.service';
 import { statusLabel } from '../task-status';
 import { RouterLink } from '@angular/router';
 

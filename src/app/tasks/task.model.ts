@@ -6,7 +6,6 @@ export interface TaskModel {
     id: number;
     title: string;
     status: TaskStatus;
-    //priority: number;   // 1 alta · 2 media · 3 baja
     priority: 1 | 2 | 3;
     assignee?: UserModel;
 }

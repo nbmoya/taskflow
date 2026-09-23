@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { TaskCard } from '../task-card/task-card';
-import { TaskStore } from '../../task.store';
+import { TaskStore } from '../../task-store.service';
 import { TaskModel } from '../task.model';
 import { TaskStatus, COLUMN_LABELS } from '../task-status';
 
@@ -33,7 +33,7 @@ export class TaskBoard {
   });
 
   markDone(task: TaskModel) {
-    this.store.complete(task.id);
+    this.store.update(task.id, {status:'done'});
   }
 
   remove(id: number) {
