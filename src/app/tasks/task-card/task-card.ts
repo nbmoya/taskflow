@@ -2,6 +2,7 @@ import { Component, input, output, numberAttribute } from '@angular/core';
 import { statusLabel } from '../task-status';
 import { TaskModel } from '../task.model';
 
+
 @Component({
   imports: [],
   selector: 'app-task-card',

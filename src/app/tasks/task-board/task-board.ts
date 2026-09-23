@@ -1,8 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
 import { TaskCard } from '../task-card/task-card';
-import { TaskStore } from '../../task.store';
 import { TaskModel } from '../task.model';
 import { TaskStatus, COLUMN_LABELS } from '../task-status';
+import { Taskstore } from '../../task-store.service';
+
+Taskstore
 
 @Component({
   selector: 'app-task-board',
@@ -11,7 +13,7 @@ import { TaskStatus, COLUMN_LABELS } from '../task-status';
   styleUrl: './task-board.css'
 })
 export class TaskBoard {
-  private readonly store = inject(TaskStore);
+  private readonly store = inject(Taskstore);
 
   columns = (Object.keys(COLUMN_LABELS) as TaskStatus[]).map(status => ({
     status,
@@ -33,7 +35,7 @@ export class TaskBoard {
   });
 
   markDone(task: TaskModel) {
-    this.store.complete(task.id);
+    this.store.update(task.id, {status: 'done'});
   }
 
   remove(id: number) {

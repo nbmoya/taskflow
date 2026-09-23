@@ -1,7 +1,8 @@
 import { Component, computed, inject, input, numberAttribute } from '@angular/core';
-import { TaskStore } from '../../task.store';
 import { statusLabel } from '../task-status';
 import { RouterLink } from '@angular/router';
+import { Taskstore } from '../../task-store.service';
+
 
 @Component({
   imports: [RouterLink],
@@ -12,7 +13,7 @@ import { RouterLink } from '@angular/router';
 export class TaskDetail {
   taskId = input.required({transform:numberAttribute});
 
-  private readonly store = inject(TaskStore);
+  private readonly store = inject(Taskstore);
 
   task = computed( () => this.store.tasks().find(t => t.id === this.taskId()));
 
