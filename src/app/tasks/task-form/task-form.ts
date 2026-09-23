@@ -3,7 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { form, required, minLength, maxLength, min, max, FormField, FormRoot } from '@angular/forms/signals';
 import { PriorityPicker } from '../priority-picker/priority-picker';
 import { TaskStore } from '../../task.store';
-import { TaskDraft } from '../task.model';
+import { TaskDraft, createEmptyTaskDraft } from '../task.model';
 
 @Component({
   selector: 'app-task-form',
@@ -11,6 +11,8 @@ import { TaskDraft } from '../task.model';
   templateUrl: './task-form.html',
   styleUrl: './task-form.css'
 })
+
+
 export class TaskForm {
   private readonly store = inject(TaskStore);
   private readonly router = inject(Router);
@@ -19,11 +21,7 @@ export class TaskForm {
   taskId = input<number, undefined>(undefined, { transform: numberAttribute });
 
   // paso 1 · el borrador como signal del dominio 
-  protected draft = signal<TaskDraft>({
-    title: '',
-    status: 'pending',
-    priority: 2
-  });
+  protected draft = signal<TaskDraft>(createEmptyTaskDraft());
 
   // paso 2 · form() crea el FieldTree; paso 3 · validadores con mensajes 
   protected taskForm = form(this.draft, f => {
@@ -43,7 +41,7 @@ export class TaskForm {
           this.store.add(this.draft());
         }
         await this.router.navigate(['/tasks']);
-      }   
+      }
     }
   });
 
@@ -51,10 +49,10 @@ export class TaskForm {
     // edición: precargar el borrador con la tarea de la ruta 
     effect(() => {
       const id = this.taskId();
-      if (!id) return 
+      if (!id) return
       const t = this.store.find(id);
-      if(t){
-        this.draft.set({title: t.title, status: t.status, priority: t.priority});
+      if (t) {
+        this.draft.set({ title: t.title, status: t.status, priority: t.priority });
       }
     });
   }
