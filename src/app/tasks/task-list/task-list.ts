@@ -2,10 +2,8 @@ import { Component, signal, computed, inject } from '@angular/core';
 import { TaskModel } from '../task.model';
 import { RouterLink } from '@angular/router';
 import { TaskCard } from '../task-card/task-card';
-import { Taskstore } from '../../task-store.service';
+import { TaskStore } from '../../task-store.service';
 //import { TaskStore } from '../../task.store';
-
-
 @Component({
   imports: [RouterLink, TaskCard],
   selector: 'app-task-list',
@@ -14,7 +12,7 @@ import { Taskstore } from '../../task-store.service';
 })
 export class TaskList {
 
-  private readonly store = inject(Taskstore);
+  private readonly store = inject(TaskStore);
 
   filter = signal('');
 
@@ -24,7 +22,7 @@ export class TaskList {
   })
 
   markDone(task: TaskModel) {
-    this.store.update(task.id, {status: 'done'});
+    this.store.update(task.id, {status:'done'});
   }
 
   remove(id: number) {

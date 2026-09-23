@@ -2,7 +2,7 @@ import { Component, effect, inject, input, numberAttribute, signal } from '@angu
 import { Router, RouterLink } from '@angular/router';
 import { form, required, minLength, maxLength, min, max, FormField, FormRoot } from '@angular/forms/signals';
 import { PriorityPicker } from '../priority-picker/priority-picker';
-import { TaskStore } from '../../task.store';
+import { TaskStore } from '../../task-store.service';
 import { TaskDraft, createEmptyTaskDraft } from '../task.model';
 
 @Component({
