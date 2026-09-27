@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { TaskCard } from '../task-card/task-card';
-import { TaskStore } from '../../task-store.service';
+import { TaskStore } from '../../services/task-store.service';
 import { TaskModel } from '../task.model';
 import { TaskStatus, COLUMN_LABELS } from '../task-status';
 

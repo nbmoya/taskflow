@@ -6,15 +6,16 @@ import {
 } from '@angular/core';
 
 import type {
+  RealtimeChannel,
   RealtimePostgresChangesPayload
 } from '@supabase/supabase-js';
 
 import {
   TaskModel,
   TaskDraft
-} from './tasks/task.model';
+} from '../tasks/task.model';
 
-import { TaskApi } from './tasks/task-api.service';
+import { TaskApi } from '../tasks/task-api.service';
 import { supabase } from './supabase.client';
 
 @Injectable({
@@ -29,6 +30,8 @@ export class TaskStore {
 
   private readonly currentUserId =
     signal<string | null | undefined>(null);
+  private realtimeChannel: RealtimeChannel | null = null;
+  private activeUserId: string | undefined;
 
   setUser(uid: string | undefined): void {
     this.currentUserId.set(uid);
@@ -40,24 +43,39 @@ export class TaskStore {
 
       const uid = this.currentUserId();
 
-      if (uid === null || uid === undefined) {
+      if (uid === null) {
         return;
       }
 
-      this.load();
+      if (uid === undefined) {
+        this.tasks.set([]);
+        this.loading.set(false);
+        this.stopRealtime();
+        this.activeUserId = undefined;
+        return;
+      }
+
+      if (this.activeUserId !== uid) {
+        this.stopRealtime();
+        this.activeUserId = uid;
+        this.subscribeRealtime();
+        void this.load();
+      }
     });
   }
 
   async load(): Promise<void> {
 
+    const userId = this.currentUserId();
+    if (userId === null || userId === undefined) return;
+
     this.loading.set(true);
 
     try {
-      this.tasks.set(
-        await this.api.loadAll()
-      );
+      const tasks = await this.api.loadAll();
+      if (this.currentUserId() === userId) this.tasks.set(tasks);
     } finally {
-      this.loading.set(false);
+      if (this.currentUserId() === userId) this.loading.set(false);
     }
   }
 
@@ -106,9 +124,9 @@ export class TaskStore {
     );
   }
 
-  subscribeRealtime(): void {
+  private subscribeRealtime(): void {
 
-    supabase
+    this.realtimeChannel = supabase
       .channel('tasks-changes')
       .on(
         'postgres_changes',
@@ -122,6 +140,12 @@ export class TaskStore {
         }
       )
       .subscribe();
+  }
+
+  private stopRealtime(): void {
+    if (!this.realtimeChannel) return;
+    void supabase.removeChannel(this.realtimeChannel);
+    this.realtimeChannel = null;
   }
 
   private applyChange(

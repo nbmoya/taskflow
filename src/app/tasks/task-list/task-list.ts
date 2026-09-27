@@ -2,7 +2,7 @@ import { Component, signal, computed, inject } from '@angular/core';
 import { TaskModel } from '../task.model';
 import { RouterLink } from '@angular/router';
 import { TaskCard } from '../task-card/task-card';
-import { TaskStore } from '../../task-store.service';
+import { TaskStore } from '../../services/task-store.service';
 //import { TaskStore } from '../../task.store';
 @Component({
   imports: [RouterLink, TaskCard],

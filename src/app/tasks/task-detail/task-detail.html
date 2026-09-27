@@ -12,9 +12,23 @@
     </span>
   </div>
 
+  <section aria-labelledby="attachments-heading">
+    <h3 id="attachments-heading">Adjuntos</h3>
+    @if (attachmentError()) {
+      <p role="alert">No se pudieron cargar los adjuntos.</p>
+    } @else {
+      @for (file of attachments(); track file.name) {
+        <p><a [href]="file.url" target="_blank" rel="noopener noreferrer">{{ file.name }}</a></p>
+      } @empty {
+        <p>Sin adjuntos</p>
+      }
+    }
+  </section>
+
   <a [routerLink]="['/tasks', t.id, 'edit']">
     Editar tarea
   </a>
+  <a routerLink="/tasks">Volver a tareas</a>
 
 } @else {
 
