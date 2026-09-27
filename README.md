@@ -85,7 +85,7 @@ npm --version
 
 ## Configuracion de Supabase
 
-1. Configura GitHub como proveedor en **Authentication > Providers** de Supabase. Registra en GitHub la URL de callback que indica Supabase y configura la URL local (`http://localhost:4200`) y las URLs de redireccion permitidas.
+1. Configura GitHub como proveedor en **Authentication > Providers** de Supabase. Registra en GitHub la URL de callback de Supabase (`https://<project-ref>.supabase.co/auth/v1/callback`). En **Authentication > URL Configuration**, establece **Site URL** en `https://programaccion-iv-utn.vercel.app` y agrega `http://localhost:4200/**` y `https://programaccion-iv-utn.vercel.app/**` a **Redirect URLs**. El codigo vuelve a `/board` en el mismo origen desde el que se inicio el login.
 2. Crea `public.tasks` con estas columnas: `id` (bigint autogenerado), `title` (text), `status` (text), `priority` (integer) y `user_id` (uuid relacionado con `auth.users`). Los estados aceptados por la app son `pending`, `in-progress` y `done`; la prioridad va de 1 a 3.
 3. Activa RLS en `public.tasks` y agrega politicas para que cada usuario autenticado solo pueda leer, insertar, actualizar y borrar filas donde `auth.uid() = user_id`.
 4. Habilita la tabla `tasks` en la publicacion de Realtime de Supabase.

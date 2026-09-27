@@ -34,7 +34,12 @@ export class AuthService{
     }
 
     login(){
-        return supabase.auth.signInWithOAuth({provider:'github'})
+        return supabase.auth.signInWithOAuth({
+            provider: 'github',
+            options: {
+                redirectTo: `${window.location.origin}/board`,
+            },
+        });
     }
 
     logout(){
