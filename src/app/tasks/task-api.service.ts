@@ -3,7 +3,6 @@ import { supabase } from '../services/supabase.client';
 import { TaskModel, TaskDraft } from './task.model';
 
 // Servicio delgado: SOLO habla con la API. No guarda estado,
-// no decide nada de UI. Inyectable en root (libro 15.1–15.3).
 @Injectable({ providedIn: 'root' })
 export class TaskApi {
 
