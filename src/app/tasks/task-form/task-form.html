@@ -42,10 +42,25 @@
     }
   }
 
+  <label for="attachment">Adjunto</label>
+  <input
+    id="attachment"
+    type="file"
+    (change)="onAttachmentChange($event)"
+  />
+
+  @if (attachment(); as file) {
+    <p>Archivo seleccionado: {{ file.name }}</p>
+  }
+
+  @if (submitError(); as error) {
+    <p class="error" role="alert">{{ error }}</p>
+  }
+
   <div class="actions">
 
-    <button type="submit">
-      Guardar tarea
+    <button type="submit" [disabled]="saving()">
+      {{ saving() ? 'Guardando...' : 'Guardar tarea' }}
     </button>
 
     <a routerLink="/tasks">
