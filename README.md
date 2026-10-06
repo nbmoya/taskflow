@@ -202,8 +202,3 @@ Taskflow persiste las tareas en Supabase y actualiza la interfaz con Realtime. L
 ## Autor y contexto academico
 
 Proyecto desarrollado como trabajo practico para **Programacion IV - UTN Facultad Regional Avellaneda**.
-
-## Licencia
-
-Este proyecto fue desarrollado con fines academicos.
-# taskflow
